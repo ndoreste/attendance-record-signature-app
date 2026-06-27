@@ -1,0 +1,47 @@
+* { box-sizing: border-box; }
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --accent: #22d3ee;
+  --accent-2: #34d399;
+  --danger: #fb7185;
+  --border: #334155;
+  --field: #020617;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+body { margin: 0; background: radial-gradient(circle at top, #1e293b 0, var(--bg) 48%); color: var(--text); min-height: 100vh; }
+.site-header { display: flex; justify-content: space-between; gap: 2rem; padding: 3rem clamp(1rem, 4vw, 5rem); align-items: center; }
+.eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: .16em; font-weight: 800; }
+h1 { font-size: clamp(2.2rem, 5vw, 4.5rem); line-height: 1; margin: .2rem 0 1rem; }
+h2 { margin-top: 0; }
+nav { display: flex; flex-wrap: wrap; gap: .8rem; }
+a, button { border: 0; border-radius: 999px; padding: .85rem 1.1rem; background: rgba(34,211,238,.12); color: var(--text); text-decoration: none; cursor: pointer; font-weight: 800; }
+button[type="submit"], .button-link { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #02111a; }
+.secondary { background: #1f2937; color: var(--text); border: 1px solid var(--border); }
+main { width: min(1180px, calc(100% - 2rem)); margin: 0 auto 3rem; display: grid; gap: 1.5rem; }
+.card { background: rgba(17,24,39,.92); border: 1px solid var(--border); border-radius: 28px; padding: clamp(1rem, 3vw, 2rem); box-shadow: 0 24px 80px rgba(0,0,0,.28); }
+form { display: grid; gap: 1rem; }
+.form-grid, .signature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+label { display: grid; gap: .45rem; color: var(--muted); font-weight: 700; }
+input, textarea { width: 100%; border: 1px solid var(--border); background: var(--field); color: var(--text); border-radius: 16px; padding: .9rem 1rem; font: inherit; }
+textarea { resize: vertical; }
+.signature-box { border: 1px solid var(--border); border-radius: 22px; padding: 1rem; background: rgba(2,6,23,.6); }
+.signature-box h3 { margin-top: 0; }
+canvas { width: 100%; height: 190px; background: #f8fafc; border-radius: 16px; touch-action: none; display: block; margin-bottom: .8rem; }
+#formMessage { min-height: 1.4rem; font-weight: 800; }
+#formMessage.ok { color: var(--accent-2); }
+#formMessage.error { color: var(--danger); }
+.section-title { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; min-width: 850px; }
+th, td { padding: .9rem; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { color: var(--accent); }
+.badge { color: #052e16; background: #86efac; padding: .25rem .55rem; border-radius: 999px; font-size: .82rem; font-weight: 900; }
+footer { text-align: center; color: var(--muted); padding: 2rem; }
+@media (max-width: 780px) {
+  .site-header { display: grid; padding: 2rem 1rem; }
+  nav, .form-grid, .signature-grid { grid-template-columns: 1fr; display: grid; }
+  a, button { text-align: center; }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "attendance-record-signature-app",
+  "version": "1.0.0",
+  "description": "Aplicación web para registrar asistencia, horarios, entradas/salidas, motivos y firmas digitales con Node.js, MongoDB y frontend HTML/CSS/JS.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test tests/*.test.js",
+    "lint": "node --check src/**/*.js tests/**/*.js"
+  },
+  "keywords": ["nodejs", "express", "mongodb", "signature", "attendance", "excel"],
+  "author": "Nauzet Doreste",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}

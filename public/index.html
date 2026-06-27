@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplicación web para registrar asistencia, horarios, entradas, salidas, motivos y firmas digitales.">
+  <meta name="author" content="Nauzet Doreste">
+  <meta name="keywords" content="Node.js, MongoDB, firmas digitales, registros, asistencia, Excel">
+  <title>Registro de asistencia con firmas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Node.js · MongoDB · Excel</p>
+      <h1>Registro de asistencia con firma digital</h1>
+      <p>Guarda fechas, nombres, horarios, entradas, salidas, motivos y firmas dibujadas directamente en pantalla.</p>
+    </div>
+    <nav aria-label="Navegación principal">
+      <a href="#formulario">Registrar</a>
+      <a href="#registros">Registros</a>
+      <a class="button-link" href="/api/records/export/excel">Exportar Excel</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="formulario" class="card">
+      <h2>Nuevo registro</h2>
+      <form id="recordForm">
+        <div class="form-grid">
+          <label>Fecha <input type="date" name="date" required></label>
+          <label>Nombre completo <input type="text" name="fullName" placeholder="Ej. Nauzet Doreste" required></label>
+          <label>Horario inicio <input type="time" name="scheduleStart" required></label>
+          <label>Horario fin <input type="time" name="scheduleEnd" required></label>
+          <label>Entrada <input type="time" name="entryTime" required></label>
+          <label>Salida <input type="time" name="exitTime" required></label>
+        </div>
+        <label>Motivo <input type="text" name="reason" placeholder="Ej. Jornada ordinaria, incidencia, visita técnica..." required></label>
+        <label>Observaciones <textarea name="observations" rows="3" placeholder="Detalles opcionales"></textarea></label>
+
+        <div class="signature-grid">
+          <section class="signature-box">
+            <h3>Firma persona</h3>
+            <canvas id="employeeSignature" width="520" height="190" aria-label="Lienzo para firma de la persona"></canvas>
+            <button type="button" class="secondary" data-clear="employeeSignature">Limpiar firma</button>
+          </section>
+          <section class="signature-box">
+            <h3>Firma supervisión</h3>
+            <canvas id="supervisorSignature" width="520" height="190" aria-label="Lienzo para firma de supervisión"></canvas>
+            <button type="button" class="secondary" data-clear="supervisorSignature">Limpiar firma</button>
+          </section>
+        </div>
+
+        <button type="submit">Guardar registro</button>
+        <p id="formMessage" role="status"></p>
+      </form>
+    </section>
+
+    <section id="registros" class="card">
+      <div class="section-title">
+        <h2>Registros guardados</h2>
+        <button id="refreshRecords" class="secondary" type="button">Actualizar</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Nombre</th><th>Horario</th><th>Entrada</th><th>Salida</th><th>Motivo</th><th>Firmas</th>
+            </tr>
+          </thead>
+          <tbody id="recordsTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto web completo con Node.js, MongoDB, frontend estático y exportación a Excel.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
