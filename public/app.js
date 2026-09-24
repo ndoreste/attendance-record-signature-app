@@ -60,19 +60,37 @@ async function loadRecords() {
     recordsTable.innerHTML = '<tr><td colspan="7">Todavía no hay registros.</td></tr>';
     return;
   }
-  result.data.forEach((record) => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${String(record.date).slice(0, 10)}</td>
-      <td>${record.fullName}</td>
-      <td>${record.scheduleStart} - ${record.scheduleEnd}</td>
-      <td>${record.entryTime}</td>
-      <td>${record.exitTime}</td>
-      <td>${record.reason}<br><small>${record.observations || ''}</small></td>
-      <td><span class="badge">2 firmas</span></td>
-    `;
-    recordsTable.appendChild(row);
-  });
+  result.data.forEach((record) => recordsTable.appendChild(buildRow(record)));
+}
+
+// Los datos vienen de la API: se insertan como texto, nunca como HTML (evita XSS almacenado).
+function cell(text) {
+  const td = document.createElement('td');
+  td.textContent = text ?? '';
+  return td;
+}
+
+function buildRow(record) {
+  const row = document.createElement('tr');
+  const reason = cell(record.reason);
+  const observations = document.createElement('small');
+  observations.textContent = record.observations || '';
+  reason.append(document.createElement('br'), observations);
+  const badge = document.createElement('span');
+  badge.className = 'badge';
+  badge.textContent = '2 firmas';
+  const signatures = document.createElement('td');
+  signatures.appendChild(badge);
+  row.append(
+    cell(String(record.date).slice(0, 10)),
+    cell(record.fullName),
+    cell(`${record.scheduleStart} - ${record.scheduleEnd}`),
+    cell(record.entryTime),
+    cell(record.exitTime),
+    reason,
+    signatures,
+  );
+  return row;
 }
 
 form.addEventListener('submit', async (event) => {

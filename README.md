@@ -146,7 +146,7 @@ Estado actual, verificado en el código:
 - **Sin autenticación ni autorización.** Cualquiera con acceso a la red puede listar, crear, eliminar registros y descargar el Excel.
 - **CORS abierto.** `app.use(cors())` responde `Access-Control-Allow-Origin: *` a cualquier origen.
 - **Validación mínima.** El controlador solo comprueba que los campos obligatorios no estén vacíos; Mongoose aplica `required` y `trim`. No se valida el formato de fecha/hora, la longitud de los textos ni que las firmas sean realmente imágenes PNG. En modo memoria se guarda el cuerpo tal cual, incluidos campos extra.
-- **Posible XSS almacenado en la tabla.** `public/app.js` inserta `fullName`, `reason`, `observations`, etc. con `innerHTML` sin escapar.
+- **XSS almacenado corregido.** La tabla insertaba `fullName`, `reason`, `observations`, etc. con `innerHTML` sin escapar. Ahora `public/app.js` construye cada celda con `textContent`: un registro con `<img onerror>` o `<script>` se muestra como texto y no se ejecuta (comprobado en el navegador).
 - **Cuerpo de hasta 10 MB** (`express.json({ limit: '10mb' })`) y **sin rate limiting**.
 - **Mensajes de error internos** devueltos al cliente en errores 500 (p. ej. un `id` con formato inválido en MongoDB).
 - **Datos personales.** Nombre, horarios y firma manuscrita son datos personales (RGPD); la firma se guarda en claro en MongoDB y `GET /api/records` la devuelve completa.
@@ -157,7 +157,7 @@ Mejoras pendientes:
 2. CORS restringido al origen del frontend (o desactivado si se sirve desde el mismo origen).
 3. Rate limiting (p. ej. `express-rate-limit`) y un límite de cuerpo ajustado al tamaño real de una firma.
 4. Validación de entrada con esquema (formato `YYYY-MM-DD` y `HH:MM`, longitudes máximas, firma `data:image/png;base64` con tamaño acotado) y lista blanca de campos.
-5. Escapar la salida en el frontend (`textContent` en lugar de `innerHTML`) y cabeceras de seguridad (`helmet`, CSP).
+5. Cabeceras de seguridad (`helmet`) y una Content Security Policy como segunda barrera frente a XSS.
 6. Protección de datos (RGPD): base legal e información al interesado, minimización (no devolver firmas en el listado), cifrado en tránsito (HTTPS) y en reposo, política de conservación y borrado, y registro de accesos.
 7. Ocultar detalles internos en los errores 500 y validar `ObjectId` antes de consultar.
 
